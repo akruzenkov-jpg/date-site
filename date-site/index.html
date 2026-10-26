@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Приглашение на свидание 💗</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffe0ec, #fff5f8);
+            overflow: hidden;
+        }
+
+        .card {
+            width: 320px;
+            max-width: calc(100vw - 80px);
+            padding: 30px;
+            text-align: center;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(200, 70, 120, 0.15);
+        }
+
+/* Плавное исчезновение первой страницы */
+.card.fade-out {
+    animation: fadeOut 0.6s ease forwards;
+}
+
+/* Плавное появление второй страницы */
+#second-page.show-page {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+        h1 {
+            color: #d63384;
+            font-size: 28px;
+        }
+
+        p {
+            color: #777;
+            line-height: 1.5;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            border: none;
+            padding: 14px 22px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #yes {
+            color: white;
+            background: #e75480;
+        }
+
+        #yes:hover {
+            background: #d63384;
+        }
+
+        #no {
+            color: #d63384;
+            background: #ffe5ef;
+        }
+
+#running-dog {
+    position: fixed;
+    left: 50px;
+    top: 50px;
+    width: 85px;
+    height: 75px;
+    z-index: 9999;
+    pointer-events: auto;
+cursor: pointer;
+    user-select: none;
+    transition: left 0.45s ease-in-out,
+                top 0.45s ease-in-out;
+    filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.2));
+}
+
+#running-dog {
+    position: fixed;
+    left: 50px;
+    top: 50px;
+    width: 120px;
+    height: 100px;
+    z-index: 9999;
+    pointer-events: auto;
+cursor: pointer;
+    user-select: none;
+    transition: left 0.45s ease-in-out,
+                top 0.45s ease-in-out;
+}
+
+#running-dog img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform-origin: center;
+    filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.2));
+}
+
+
+#second-page {
+    margin-top: 20px;
+}
+
+.places {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.place {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: #fff0f5;
+    color: #d63384;
+    border: 2px solid #ffd1e1;
+    border-radius: 16px;
+    font-size: 13px;
+}
+
+.place img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.place:hover {
+    background: #ffd6e5;
+}
+
+#chosen-place {
+    color: #d63384;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+#third-page.show-page {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.date-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.date-option {
+    width: 100%;
+    flex-shrink: 0;
+    background: #fff0f5;
+    color: #d63384;
+    border: 2px solid #ffd1e1;
+    border-radius: 15px;
+    line-height: 1.7;
+}
+
+.date-option:hover,
+.date-option.selected {
+    background: #ffd6e5;
+    border-color: #d63384;
+}
+
+#fourth-page {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #000000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+#fourth-page.show-page {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+#big-button {
+    width: 80vw;
+    max-width: 500px;
+    height: 220px;
+    background: #ff0000;
+    color: white;
+    border: 4px solid #ff3333;
+    border-radius: 30px;
+    font-size: clamp(40px, 10vw, 70px);
+    font-weight: bold;
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.7);
+    cursor: pointer;
+}
+
+    </style>
+</head>
+
+<body>
+<div class="card" id="name-page">
+    <h1>🦸</h1>
+    <h1>Назови своё имя, маленький герой</h1>
+
+    <input
+        id="hero-name"
+        type="text"
+        placeholder="Введи своё имя..."
+        maxlength="30"
+        style="width: 85%; padding: 12px; border: 2px solid #ffd1e1; border-radius: 15px; font-size: 16px; box-sizing: border-box;"
+    >
+
+    <br><br>
+
+    <button
+        id="name-continue"
+        style="background: #e75480; color: white; border: none; padding: 14px 22px; border-radius: 25px; font-size: 16px; cursor: pointer;"
+    >
+        Продолжить 💗
+    </button>
+</div>
+    
+ <div id="running-dog">
+    <img id="dog-img" src="dog/1-run.png" alt="Смешная собака">
+</div>
+
+    <div class="card" id="first-page">
+    <div id="first-content">
+        <h1>💌</h1>
+
+        <h1>Пойдёшь со мной на свидание?</h1>
+
+        <p>У меня к тебе один важный вопрос...</p>
+
+      <div class="buttons" id="answer-buttons">
+    <button id="yes">Да 💖</button>
+    <button id="no">Нет 🙈</button>
+</div>
+</div>
+</div>
+
+<div class="card" id="second-page" style="display: none;">
+    <h2>Куда отправимся на свидание? 💗</h2>
+
+    <div class="places">
+        <button class="place" data-place="Спортивный клуб «Невский»">
+            <img src="places/nevsky.jpg" alt="Спортивный клуб Невский">
+            <span>🎯 Спортивный клуб «Невский»</span>
+        </button>
+
+        <button class="place" data-place="Бар L15">
+            <img src="places/l15.jpg" alt="Бар L15">
+            <span>🍸 Бар L15</span>
+        </button>
+
+        <button class="place" data-place="Дон Корлеоне">
+            <img src="places/don-corleone.jpg" alt="Дон Корлеоне">
+            <span>🍝 Дон Корлеоне</span>
+        </button>
+
+        <button class="place" data-place="Слухи">
+            <img src="places/sluhi.jpg" alt="Слухи">
+            <span>🥂 Слухи</span>
+        </button>
+
+        <button class="place" data-place="Ардекофе">
+            <img src="places/ardecafe.jpg" alt="Ардекофе">
+            <span>☕ Ардекофе</span>
+        </button>
+
+        <button class="place" data-place="Падел-клуб Korta">
+            <img src="places/korta.jpg" alt="Падел-клуб Korta">
+            <span>🎾 Падел-клуб Korta</span>
+        </button>
+    </div>
+
+    <p id="chosen-place"></p>
+</div>
+<div class="card" id="third-page" style="display: none;">
+    <h2>📅 Когда пойдём?</h2>
+
+    <p id="selected-place-text">Выбрали заведение 💗</p>
+    <p>Выбирай удобное время:</p>
+
+    <div class="date-options">
+        <button class="date-option" data-date="29.10" data-time="20:00">
+            💗 29 октября<br>🕗 20:00
+        </button>
+
+        <button class="date-option" data-date="31.10" data-time="18:00">
+            💗 31 октября<br>🕕 18:00
+        </button>
+
+        <button class="date-option" data-date="01.11" data-time="19:00">
+            💗 1 ноября<br>🕖 19:00
+        </button>
+
+        <button class="date-option" data-date="03.11" data-time="20:30">
+            💗 3 ноября<br>🕣 20:30
+        </button>
+
+        <button class="date-option" data-date="04.11" data-time="19:00">
+            💗 4 ноября<br>🕖 19:00
+        </button>
+    </div>
+
+    <p id="date-result"></p>
+</div>
+<div id="fourth-page" style="display: none;">
+    <button id="big-button">НАЖМИ</button>
+
+    <video id="rick-video" controls playsinline
+           style="display:none; width:100%; max-height:100vh; background:black;">
+        <source src="rick.mp4" type="video/mp4">
+        Твой браузер не поддерживает видео.
+    </video>
+</div>
+
+<script>
+       const yesButton = document.getElementById("yes");
+const namePage = document.getElementById("name-page");
+const heroNameInput = document.getElementById("hero-name");
+const nameContinue = document.getElementById("name-continue");
+const firstPage = document.getElementById("first-page");
+
+firstPage.style.display = "none";
+
+nameContinue.addEventListener("click", function() {
+    const heroName = heroNameInput.value.trim();
+
+    if (!heroName) {
+        alert("Сначала назови своё имя, маленький герой 💗");
+        heroNameInput.focus();
+        return;
+    }
+
+    document.querySelector("#first-content h1:nth-of-type(2)").textContent =
+        heroName + ", пойдёшь со мной на свидание?";
+
+    namePage.style.display = "none";
+    firstPage.style.display = "block";
+    firstPage.classList.add("show-page");
+});
+
+heroNameInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        nameContinue.click();
+    }
+});
+const bigButton = document.getElementById("big-button");
+const rickVideo = document.getElementById("rick-video");
+
+bigButton.addEventListener("click", async function() {
+    bigButton.style.display = "none";
+    rickVideo.style.display = "block";
+    rickVideo.controls = false;
+    rickVideo.currentTime = 0;
+
+    try {
+        await rickVideo.play();
+    } catch (error) {
+        rickVideo.controls = true;
+        console.error("Не удалось запустить видео:", error);
+        alert("Нажми на видео, чтобы запустить его.");
+    }
+});
+
+rickVideo.addEventListener("ended", function() {
+    document.body.innerHTML = "";
+    document.body.style.background = "black";
+});
+const noButton = document.getElementById("no");
+const voiceMessage = new Audio("audio/2026-10-25%2022.22.32.ogg");
+
+const secondPage = document.getElementById("second-page");
+
+let pageTransitionStarted = false;
+
+function showSecondPage() {
+    if (pageTransitionStarted) return;
+    pageTransitionStarted = true;
+
+    firstPage.classList.add("fade-out");
+
+    setTimeout(function() {
+        firstPage.style.display = "none";
+        secondPage.style.display = "block";
+        secondPage.classList.add("show-page");
+    }, 600);
+}
+
+yesButton.addEventListener("click", async function() {
+    yesButton.disabled = true;
+    noButton.style.display = "none";
+
+    voiceMessage.currentTime = 0;
+    voiceMessage.onended = showSecondPage;
+
+    try {
+        await voiceMessage.play();
+    } catch (error) {
+        showSecondPage();
+    }
+});
+
+document.querySelectorAll(".place").forEach(function(button) {
+    button.addEventListener("click", function() {
+        const place = button.dataset.place;
+
+        document.getElementById("chosen-place").textContent =
+            "💕 Отличный выбор! Идём: " + place + "!";
+
+        document.querySelectorAll(".place").forEach(function(item) {
+            item.style.borderColor = "#ffd1e1";
+        });
+
+        button.style.borderColor = "#d63384";
+
+        const secondPage = document.getElementById("second-page");
+        const thirdPage = document.getElementById("third-page");
+
+        document.getElementById("selected-place-text").textContent =
+            "Место встречи: " + place + " 💗";
+
+        secondPage.classList.add("fade-out");
+
+        setTimeout(function() {
+            secondPage.style.display = "none";
+            secondPage.classList.remove("fade-out");
+
+            thirdPage.style.display = "block";
+            thirdPage.classList.remove("show-page");
+            void thirdPage.offsetWidth;
+            thirdPage.classList.add("show-page");
+        }, 600);
+    });
+});
+
+function runAway() {
+    const maxX = window.innerWidth - noButton.offsetWidth - 10;
+    const maxY = window.innerHeight - noButton.offsetHeight - 10;
+
+    const x = Math.max(10, Math.random() * maxX);
+    const y = Math.max(10, Math.random() * maxY);
+
+    noButton.style.position = "fixed";
+    noButton.style.left = x + "px";
+    noButton.style.top = y + "px";
+}
+
+noButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    runAway();
+});
+
+noButton.addEventListener("touchstart", function(event) {
+    event.preventDefault();
+    runAway();
+});
+
+const dog = document.getElementById("running-dog");
+const dogImg = document.getElementById("dog-img");
+const dogVoice = new Audio("audio/dog-voice.ogg");
+
+dog.addEventListener("click", function() {
+    dogVoice.currentTime = 0;
+    dogVoice.play().catch(function(error) {
+        console.error("Не удалось воспроизвести аудио собаки:", error);
+    });
+});
+
+const dogPoses = [
+    "dog/1-run.png",
+    "dog/2-crawl.png",
+    "dog/3-sit.png",
+    "dog/4-back.png"
+];
+
+let poseIndex = 0;
+
+function dogRuns() {
+    const maxX = Math.max(0, window.innerWidth - dog.offsetWidth);
+    const maxY = Math.max(0, window.innerHeight - dog.offsetHeight);
+
+    dog.style.left = Math.random() * maxX + "px";
+    dog.style.top = Math.random() * maxY + "px";
+
+    poseIndex = (poseIndex + 1) % dogPoses.length;
+    dogImg.src = dogPoses[poseIndex];
+
+    const direction = Math.random() < 0.5 ? 1 : -1;
+    dogImg.style.transform = `scaleX(${direction})`;
+
+    setTimeout(dogRuns, 700 + Math.random() * 900);
+}
+
+dogRuns();
+document.querySelectorAll(".date-option").forEach(function(button) {
+    button.addEventListener("click", function() {
+        document.querySelectorAll(".date-option").forEach(function(item) {
+            item.classList.remove("selected");
+        });
+
+        button.classList.add("selected");
+
+        const date = button.dataset.date;
+        const time = button.dataset.time;
+
+        document.getElementById("date-result").textContent =
+            "💕 Договорились мой сладенький! Жду нашей встречи " +
+            date + " в " + time + "!";
+
+        setTimeout(function() {
+            document.getElementById("first-page").style.display = "none";
+            document.getElementById("second-page").style.display = "none";
+            document.getElementById("third-page").style.display = "none";
+
+            const fourthPage = document.getElementById("fourth-page");
+            fourthPage.style.display = "flex";
+            fourthPage.classList.remove("show-page");
+            void fourthPage.offsetWidth;
+            fourthPage.classList.add("show-page");
+        }, 4000);
+    });
+});
+    </script>
+
+</body>
+</html>
